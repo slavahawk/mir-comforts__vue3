@@ -24,17 +24,38 @@ const BasketProduct = sequelize.define('basket_product', {
 const Product = sequelize.define('product', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     name: {type: DataTypes.STRING, unique: true, allowNull: false},
+    description: {type: DataTypes.STRING, allowNull: false},
     image: {type: DataTypes.STRING, allowNull: false},
-    size: {type: DataTypes.STRING, allowNull: false},
-    materials: {type: DataTypes.STRING, allowNull: false},
     price: {type: DataTypes.INTEGER, allowNull: false}
 })
 
-const ProductInfo = sequelize.define('product_info', {
+const ProductLinens = sequelize.define('product_linens', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     product_id: {type: DataTypes.INTEGER, primaryKey: true},
-    title: {type: DataTypes.STRING, allowNull: false},
-    description: {type: DataTypes.STRING, allowNull: false}
+    size: {type: DataTypes.STRING, allowNull: false},
+    materials: {type: DataTypes.STRING, allowNull: false},
+    colors: {type: DataTypes.STRING, allowNull: false}
+})
+
+const ProductBlankets = sequelize.define('product_blankets', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    product_id: {type: DataTypes.INTEGER, primaryKey: true},
+    size: {type: DataTypes.STRING, allowNull: false},
+    materials: {type: DataTypes.STRING, allowNull: false}
+})
+
+const ProductPillows = sequelize.define('product_pillows', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    product_id: {type: DataTypes.INTEGER, primaryKey: true},
+    size: {type: DataTypes.STRING, allowNull: false},
+    materials: {type: DataTypes.STRING, allowNull: false},
+})
+
+const ProductAccessories = sequelize.define('product_accessories', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    product_id: {type: DataTypes.INTEGER, primaryKey: true},
+    aroma: {type: DataTypes.STRING, allowNull: false},
+    materials: {type: DataTypes.STRING, allowNull: false},
 })
 
 const Type = sequelize.define('type', {
@@ -42,22 +63,24 @@ const Type = sequelize.define('type', {
     name: {type: DataTypes.STRING, unique: true, allowNull: false},
 })
 
-const Rating = sequelize.define('type', {
-    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-    rate: {type: DataTypes.INTEGER, allowNull: false},
-})
 
 User.hasOne(Basket)
 Basket.belongsTo(User)
 
-User.hasMany(Rating)
-Rating.belongsTo(User)
-
 Basket.hasMany(BasketProduct)
 BasketProduct.belongsTo(Basket)
 
-Product.hasMany(ProductInfo, {as: 'info'})
-ProductInfo.belongsTo(Product)
+Product.hasMany(ProductLinens, {as: 'linens'})
+ProductLinens.belongsTo(Product)
+
+Product.hasMany(ProductBlankets, {as: 'blankets'})
+ProductBlankets.belongsTo(Product)
+
+Product.hasMany(ProductPillows, {as: 'pillows'})
+ProductPillows.belongsTo(Product)
+
+Product.hasMany(ProductAccessories, {as: 'accessories'})
+ProductAccessories.belongsTo(Product)
 
 Product.hasOne(BasketProduct)
 BasketProduct.hasOne(Product)
@@ -67,5 +90,5 @@ Product.belongsTo(Type)
 
 
 module.exports = {
-    Type, ProductInfo, Product, BasketProduct, User, Basket, Rating
+    Type, Product, BasketProduct, User, Basket, ProductLinens, ProductBlankets, ProductPillows, ProductAccessories
 }
